@@ -1,0 +1,7 @@
+# Copia este archivo a terraform.tfvars y completa los valores.
+# terraform.tfvars está en .gitignore — no lo subas a git.
+
+project_id  = "tu-project-id-de-gcp"
+region      = "us-central1"
+github_repo = "SaraGallego22/gcp-banking-knowledge-graph"
+env         = "dev"

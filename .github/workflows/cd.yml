@@ -1,0 +1,47 @@
+name: CD — Deploy to GCP
+
+# Se ejecuta automáticamente al hacer merge a main,
+# o manualmente desde la pestaña Actions de GitHub.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"   # Solo si cambió la infraestructura
+  workflow_dispatch:   # Permite ejecutar manualmente
+
+permissions:
+  contents: read
+  id-token: write  # Requerido para Workload Identity Federation
+
+jobs:
+  terraform-apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    environment: production  # Requiere aprobación manual en GitHub (configúralo en Settings → Environments)
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP via Workload Identity Federation
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.5"
+
+      - name: Terraform Init
+        working-directory: infra/
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: infra/
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          TF_VAR_region: "us-central1"
+          TF_VAR_github_repo: "SaraGallego22/gcp-banking-knowledge-graph"
+          TF_VAR_env: "dev"
