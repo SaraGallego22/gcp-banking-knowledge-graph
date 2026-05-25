@@ -47,8 +47,8 @@ resource "google_bigquery_table" "customers" {
   labels              = local.common_labels
 
   schema = jsonencode([
-    { name = "customer_id", type = "STRING",    mode = "REQUIRED" },
-    { name = "name",        type = "STRING",    mode = "REQUIRED" },
+    { name = "customer_id", type = "STRING",    mode = "NULLABLE" },
+    { name = "name",        type = "STRING",    mode = "NULLABLE" },
     { name = "email",       type = "STRING",    mode = "NULLABLE" },
     { name = "phone",       type = "STRING",    mode = "NULLABLE" },
     { name = "birth_date",  type = "DATE",      mode = "NULLABLE" },
@@ -56,7 +56,7 @@ resource "google_bigquery_table" "customers" {
     { name = "city",        type = "STRING",    mode = "NULLABLE" },
     { name = "country",     type = "STRING",    mode = "NULLABLE" },
     { name = "segment",     type = "STRING",    mode = "NULLABLE" },
-    { name = "created_at",  type = "TIMESTAMP", mode = "REQUIRED" },
+    { name = "created_at",  type = "TIMESTAMP", mode = "NULLABLE" },
   ])
 }
 
@@ -68,13 +68,13 @@ resource "google_bigquery_table" "accounts" {
   labels              = local.common_labels
 
   schema = jsonencode([
-    { name = "account_id",   type = "STRING",    mode = "REQUIRED" },
-    { name = "customer_id",  type = "STRING",    mode = "REQUIRED" },
+    { name = "account_id",   type = "STRING",    mode = "NULLABLE" },
+    { name = "customer_id",  type = "STRING",    mode = "NULLABLE" },
     { name = "account_type", type = "STRING",    mode = "NULLABLE" },
-    { name = "balance",      type = "FLOAT64",   mode = "NULLABLE" },
+    { name = "balance",      type = "FLOAT",     mode = "NULLABLE" },
     { name = "currency",     type = "STRING",    mode = "NULLABLE" },
     { name = "status",       type = "STRING",    mode = "NULLABLE" },
-    { name = "opened_at",    type = "TIMESTAMP", mode = "REQUIRED" },
+    { name = "opened_at",    type = "TIMESTAMP", mode = "NULLABLE" },
     { name = "branch_id",    type = "STRING",    mode = "NULLABLE" },
   ])
 }
@@ -93,14 +93,14 @@ resource "google_bigquery_table" "transactions" {
   }
 
   schema = jsonencode([
-    { name = "transaction_id",   type = "STRING",    mode = "REQUIRED" },
-    { name = "account_id",       type = "STRING",    mode = "REQUIRED" },
+    { name = "transaction_id",   type = "STRING",    mode = "NULLABLE" },
+    { name = "account_id",       type = "STRING",    mode = "NULLABLE" },
     { name = "merchant_id",      type = "STRING",    mode = "NULLABLE" },
-    { name = "amount",           type = "FLOAT64",   mode = "REQUIRED" },
+    { name = "amount",           type = "FLOAT",     mode = "NULLABLE" },
     { name = "currency",         type = "STRING",    mode = "NULLABLE" },
     { name = "transaction_type", type = "STRING",    mode = "NULLABLE" },
     { name = "category",         type = "STRING",    mode = "NULLABLE" },
-    { name = "transaction_date", type = "TIMESTAMP", mode = "REQUIRED" },
+    { name = "transaction_date", type = "TIMESTAMP", mode = "NULLABLE" },
     { name = "description",      type = "STRING",    mode = "NULLABLE" },
     { name = "status",           type = "STRING",    mode = "NULLABLE" },
   ])
@@ -114,11 +114,11 @@ resource "google_bigquery_table" "merchants" {
   labels              = local.common_labels
 
   schema = jsonencode([
-    { name = "merchant_id", type = "STRING", mode = "REQUIRED" },
-    { name = "name",        type = "STRING", mode = "REQUIRED" },
-    { name = "category",    type = "STRING", mode = "NULLABLE" },
-    { name = "city",        type = "STRING", mode = "NULLABLE" },
-    { name = "country",     type = "STRING", mode = "NULLABLE" },
-    { name = "is_online",   type = "BOOL",   mode = "NULLABLE" },
+    { name = "merchant_id", type = "STRING",  mode = "NULLABLE" },
+    { name = "name",        type = "STRING",  mode = "NULLABLE" },
+    { name = "category",    type = "STRING",  mode = "NULLABLE" },
+    { name = "city",        type = "STRING",  mode = "NULLABLE" },
+    { name = "country",     type = "STRING",  mode = "NULLABLE" },
+    { name = "is_online",   type = "BOOLEAN", mode = "NULLABLE" },
   ])
 }

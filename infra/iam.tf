@@ -61,6 +61,8 @@ resource "google_project_iam_member" "github_actions_roles" {
     "roles/iam.serviceAccountUser",
     "roles/aiplatform.user",
     "roles/secretmanager.secretAccessor",
+    # Requerido para que terraform plan pueda leer el estado de google_project_service
+    "roles/serviceusage.serviceUsageViewer",
   ])
 
   project = var.project_id
