@@ -102,9 +102,7 @@ def generate_accounts(customers: pd.DataFrame) -> pd.DataFrame:
                     "status": random.choices(
                         ["active", "inactive", "blocked"], weights=[80, 15, 5]
                     )[0],
-                    "opened_at": fake.date_time_between(
-                        start_date="-5y", end_date="now"
-                    ),
+                    "opened_at": fake.date_time_between(start_date="-5y", end_date="now"),
                     "branch_id": f"BR-{random.randint(1, 50):03d}",
                 }
             )
@@ -163,7 +161,9 @@ def save_dataset(df: pd.DataFrame, output_dir: Path, name: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Genera datos sintéticos bancarios")
     parser.add_argument("--customers", type=int, default=500, help="Número de clientes")
-    parser.add_argument("--months", type=int, default=12, help="Meses de historial de transacciones")
+    parser.add_argument(
+        "--months", type=int, default=12, help="Meses de historial de transacciones"
+    )
     parser.add_argument("--merchants", type=int, default=200, help="Número de comercios")
     parser.add_argument("--output", type=str, default="data/output", help="Directorio de salida")
     args = parser.parse_args()
