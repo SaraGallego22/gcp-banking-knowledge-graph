@@ -1,8 +1,5 @@
 """Tests para el generador de datos sintéticos."""
 
-import pandas as pd
-import pytest
-
 from data.generate import (
     generate_accounts,
     generate_customers,

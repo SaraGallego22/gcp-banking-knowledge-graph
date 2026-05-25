@@ -169,7 +169,7 @@ def main() -> None:
     args = parser.parse_args()
 
     output_dir = Path(args.output)
-    print(f"\nGenerando datos sintéticos bancarios...")
+    print("\nGenerando datos sintéticos bancarios...")
     print(f"  Clientes:  {args.customers}")
     print(f"  Comercios: {args.merchants}")
     print(f"  Historial: {args.months} meses")
