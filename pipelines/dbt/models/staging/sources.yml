@@ -1,0 +1,46 @@
+version: 2
+
+sources:
+  - name: banking_raw
+    database: "{{ env_var('GCP_PROJECT_ID') }}"
+    schema: banking_raw
+    description: "Datos sintéticos bancarios cargados desde GCS por data/upload.py"
+
+    tables:
+      - name: customers
+        description: "Clientes sintéticos generados con Faker"
+        columns:
+          - name: customer_id
+            description: "UUID único del cliente"
+          - name: segment
+            description: "retail | premium | corporate | sme"
+          - name: created_at
+            description: "Timestamp de creación de la cuenta"
+
+      - name: accounts
+        description: "Cuentas bancarias — 1 a 3 por cliente"
+        columns:
+          - name: account_id
+            description: "UUID único de la cuenta"
+          - name: customer_id
+            description: "FK → customers.customer_id"
+          - name: status
+            description: "active | inactive | blocked"
+
+      - name: transactions
+        description: "Transacciones particionadas por transaction_date"
+        columns:
+          - name: transaction_id
+            description: "UUID único de la transacción"
+          - name: account_id
+            description: "FK → accounts.account_id"
+          - name: merchant_id
+            description: "FK → merchants.merchant_id (nullable: ~20% sin comercio)"
+          - name: status
+            description: "completed | pending | failed"
+
+      - name: merchants
+        description: "Comercios sintéticos"
+        columns:
+          - name: merchant_id
+            description: "UUID único del comercio"

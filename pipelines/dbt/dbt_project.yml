@@ -1,0 +1,22 @@
+name: banking_knowledge_graph
+version: "1.0.0"
+config-version: 2
+
+profile: banking_knowledge_graph
+
+model-paths: ["models"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  banking_knowledge_graph:
+    staging:
+      +materialized: view        # Vistas ligeras sobre banking_raw
+      +schema: banking_curated
+    marts:
+      +materialized: table       # Tablas físicas para consultas de negocio
+      +schema: banking_curated

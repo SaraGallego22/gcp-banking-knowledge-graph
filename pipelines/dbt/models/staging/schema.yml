@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Clientes limpios y normalizados desde banking_raw"
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: segment
+        tests:
+          - accepted_values:
+              values: [retail, premium, corporate, sme]
+
+  - name: stg_accounts
+    description: "Cuentas limpias con flag is_active"
+    columns:
+      - name: account_id
+        tests: [unique, not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: [active, inactive, blocked]
+
+  - name: stg_merchants
+    description: "Comercios limpios y normalizados"
+    columns:
+      - name: merchant_id
+        tests: [unique, not_null]
+
+  - name: stg_transactions
+    description: "Solo transacciones completadas con amount > 0"
+    columns:
+      - name: transaction_id
+        tests: [unique, not_null]
+      - name: account_id
+        tests: [not_null]
+      - name: amount
+        tests:
+          - not_null
